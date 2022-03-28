@@ -26,7 +26,7 @@ router.get("/:id", (req, res) => {
   })
     .then((dbPostData) => {
       if (!dbPostData) {
-        res.status(404).json({ message: "No user found with this id!" });
+        res.status(404).json({ message: "No categories found with this id!" });
       }
       res.json(dbPostData);
     })
@@ -63,7 +63,10 @@ router.put("/:id", (req, res) => {
   )
     .then((dbPostData) => {
       if (!dbPostData) {
-        res.status(404).send(json({ message: "No user found with this id!" }));
+        res
+          .status(404)
+          .send(json({ message: "No categories found with this id!" }));
+        return;
       }
       res.json(dbPostData);
     })
@@ -74,7 +77,22 @@ router.put("/:id", (req, res) => {
 });
 
 router.delete("/:id", (req, res) => {
-  // delete a category by its `id` value
+  Category.destroy({
+    where: {
+      id: req.params.id,
+    },
+  })
+    .then((dbPostData) => {
+      if (!dbPostData) {
+        res.status(404).json({ message: "No categories found with this id" });
+        return;
+      }
+      res.json(dbPostData);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json(err);
+    });
 });
 
 module.exports = router;
