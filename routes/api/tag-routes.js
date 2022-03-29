@@ -9,6 +9,9 @@ router.get("/", (req, res) => {
   // find all tags
   Tag.findAll({
     attributes: ["id", "tag_name"],
+    include: {
+      model: Product,
+    },
   })
     .then((dbPostData) => res.json(dbPostData))
     .catch((err) => {
@@ -23,6 +26,9 @@ router.get("/:id", (req, res) => {
   Tag.findOne({
     where: {
       id: req.params.id,
+    },
+    include: {
+      model: Product,
     },
   })
     .then((dbPostData) => {
