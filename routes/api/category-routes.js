@@ -7,6 +7,9 @@ router.get("/", (req, res) => {
   // find all categories
   Category.findAll({
     attributes: ["id", "category_name"],
+    include: {
+      model: Product,
+    },
   })
     .then((dbPostData) => res.json(dbPostData))
     .catch((err) => {
@@ -23,6 +26,9 @@ router.get("/:id", (req, res) => {
       id: req.params.id,
     },
     attributes: ["id", "category_name"],
+    include: {
+      model: Product,
+    },
   })
     .then((dbPostData) => {
       if (!dbPostData) {

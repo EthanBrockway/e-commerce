@@ -8,6 +8,12 @@ router.get("/", (req, res) => {
   // find all products
   Product.findAll({
     attributes: ["id", "product_name", "price", "stock", "category_id"],
+    include: {
+      model: Category,
+    },
+    include: {
+      model: Tag,
+    },
   })
     .then((dbPostData) => res.json(dbPostData))
     .catch((err) => {
@@ -23,6 +29,12 @@ router.get("/:id", (req, res) => {
   Product.findOne({
     where: {
       id: req.params.id,
+    },
+    include: {
+      model: Category,
+    },
+    include: {
+      model: Tag,
     },
   })
     .then((dbPostData) => {
